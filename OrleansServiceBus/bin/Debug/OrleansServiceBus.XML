@@ -1,0 +1,1172 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OrleansServiceBus</name>
+    </assembly>
+    <members>
+        <member name="T:Orleans.ServiceBus.OrleansServiceBusErrorCode">
+            <summary>
+            Orleans ServiceBus error codes
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.OrleansServiceBusErrorCode.ServiceBus">
+            <summary>
+            Start of orlean servicebus errocodes
+            </summary>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.DefaultEventHubReceiverMonitor">
+            <summary>
+            Default EventHub receiver monitor that tracks metrics using loggers PKI support.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.DefaultEventHubReceiverMonitor.#ctor(System.String,System.String,Orleans.Runtime.Logger)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="hubPath">EventHub path.  Hub Name</param>
+            <param name="hubPartition">EventHub partition</param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.DefaultEventHubReceiverMonitor.TrackInitialization(System.Boolean)">
+            <summary>
+            Track attempts to initialize the receiver.
+            </summary>
+            <param name="success">True if read succeeded, false if read failed.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.DefaultEventHubReceiverMonitor.TrackRead(System.Boolean)">
+            <summary>
+            Track attempts to read from the partition.    Tracked per partition read operation.
+            </summary>
+            <param name="success">True if read succeeded, false if read failed.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.DefaultEventHubReceiverMonitor.TrackMessagesRecieved(System.Int64,System.TimeSpan)">
+            <summary>
+            Tracks messages read and time taken per successful read.  Tracked per successful partition read operation.
+            </summary>
+            <param name="count">Messages read.</param>
+            <param name="callTime">Time spent in read operation.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.DefaultEventHubReceiverMonitor.TrackAgeOfMessagesRead(System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Tracks the age of messages as they are read.  Tracked per successful partition read operation.
+            NOTE: These metrics do not account for clock skew between host and EventHub ingestion service.
+            </summary>
+            <param name="oldest">The difference between now utc on host and the eventhub enqueue time of the oldest message in a set of messages read.</param>
+            <param name="newest">The difference between now utc on host and the eventhub enqueue time of the newest message in a set of messages read.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.DefaultEventHubReceiverMonitor.TrackShutdown(System.Boolean)">
+            <summary>
+            Track attempts to shutdown the receiver.
+            </summary>
+            <param name="success">True if read succeeded, false if read failed.</param>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventDataExtensions">
+            <summary>
+            Extends EventData to support streaming
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventDataExtensions.SetStreamNamespaceProperty(Microsoft.ServiceBus.Messaging.EventData,System.String)">
+            <summary>
+            Adds stream namespace to the EventData
+            </summary>
+            <param name="eventData"></param>
+            <param name="streamNamespace"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventDataExtensions.GetStreamNamespaceProperty(Microsoft.ServiceBus.Messaging.EventData)">
+            <summary>
+            Gets stream namespace from the EventData
+            </summary>
+            <param name="eventData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventDataExtensions.SerializeProperties(Microsoft.ServiceBus.Messaging.EventData)">
+            <summary>
+            Serializes event data properties
+            </summary>
+            <param name="eventData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventDataExtensions.DeserializeProperties(System.ArraySegment{System.Byte})">
+            <summary>
+            Deserializes event data properties
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubAdapterFactory">
+            <summary>
+            Queue adapter factory which allows the PersistentStreamProvider to use EventHub as its backend persistent event queue.
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubAdapterFactory.logger">
+            <summary>
+            Orleans logging
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubAdapterFactory.serviceProvider">
+            <summary>
+            Framework service provider
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubAdapterFactory.providerConfig">
+            <summary>
+            Provider configuration
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubAdapterFactory.adapterSettings">
+            <summary>
+            Stream provider settings
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubAdapterFactory.hubSettings">
+            <summary>
+            Event Hub settings
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubAdapterFactory.checkpointerSettings">
+            <summary>
+            Checkpointer settings
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubAdapterFactory.Name">
+            <summary>
+            Name of the adapter. Primarily for logging purposes
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubAdapterFactory.IsRewindable">
+            <summary>
+            Determines whether this is a rewindable stream adapter - supports subscribing from previous point in time.
+            </summary>
+            <returns>True if this is a rewindable stream adapter, false otherwise.</returns>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubAdapterFactory.Direction">
+            <summary>
+            Direction of this queue adapter: Read, Write or ReadWrite.
+            </summary>
+            <returns>The direction in which this adapter provides data.</returns>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubAdapterFactory.CacheFactory">
+            <summary>
+            Creates a message cache for an eventhub partition.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubAdapterFactory.CheckpointerFactory">
+            <summary>
+            Creates a parition checkpointer.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubAdapterFactory.StreamFailureHandlerFactory">
+            <summary>
+            Creates a failure handler for a partition.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubAdapterFactory.QueueMapperFactory">
+            <summary>
+            Create a queue mapper to map EventHub partitions to queues
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubAdapterFactory.ReceiverMonitorFactory">
+            <summary>
+            Create a receiver monitor to report performance metrics.
+              Arguments are EventHub path, EventHub partition, and logger. 
+              Factory funciton should return an IEventHubReceiverMonitor.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubAdapterFactory.Init(Orleans.Providers.IProviderConfiguration,System.String,Orleans.Runtime.Logger,System.IServiceProvider)">
+            <summary>
+            Factory initialization.
+            Provider config must contain the event hub settings type or the settings themselves.
+            EventHubSettingsType is recommended for consumers that do not want to include secure information in the cluster configuration.
+            </summary>
+            <param name="providerCfg"></param>
+            <param name="providerName"></param>
+            <param name="log"></param>
+            <param name="svcProvider"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubAdapterFactory.CreateAdapter">
+            <summary>
+            Create queue adapter.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubAdapterFactory.GetQueueAdapterCache">
+            <summary>
+            Create queue message cache adapter
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubAdapterFactory.GetStreamQueueMapper">
+            <summary>
+            Create queue mapper
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubAdapterFactory.GetDeliveryFailureHandler(Orleans.Streams.QueueId)">
+            <summary>
+            Aquire delivery failure handler for a queue
+            </summary>
+            <param name="queueId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubAdapterFactory.QueueMessageBatchAsync``1(System.Guid,System.String,System.Collections.Generic.IEnumerable{``0},Orleans.Streams.StreamSequenceToken,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Writes a set of events to the queue as a single batch associated with the provided streamId.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="streamGuid"></param>
+            <param name="streamNamespace"></param>
+            <param name="events"></param>
+            <param name="token"></param>
+            <param name="requestContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubAdapterFactory.CreateReceiver(Orleans.Streams.QueueId)">
+            <summary>
+            Creates a quere receiver for the specificed queueId
+            </summary>
+            <param name="queueId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubAdapterFactory.CreateQueueCache(Orleans.Streams.QueueId)">
+            <summary>
+            Create a cache for a given queue id
+            </summary>
+            <param name="queueId"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubAdapterReceiver.Initialize">
+            <summary>
+            Initialization of EventHub receiver is performed at adapter reciever initialization, but if it fails,
+             it will be retried when messages are requested
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubBatchContainer">
+            <summary>
+            Batch container that is delivers payload and stream position information for a set of events in an EventHub EventData.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubBatchContainer.StreamGuid">
+            <summary>
+            Stream identifier for the stream this batch is part of.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubBatchContainer.StreamNamespace">
+            <summary>
+            Stream namespace for the stream this batch is part of.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubBatchContainer.SequenceToken">
+            <summary>
+            Stream Sequence Token for the start of this batch.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubBatchContainer.#ctor(Orleans.ServiceBus.Providers.EventHubMessage)">
+            <summary>
+            Batch container that deliveres events from cached EventHub data associated with an orleans stream
+            </summary>
+            <param name="eventHubMessage"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubBatchContainer.GetEvents``1">
+            <summary>
+            Gets events of a specific type from the batch.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubBatchContainer.ImportRequestContext">
+            <summary>
+            Gives an opportunity to IBatchContainer to set any data in the RequestContext before this IBatchContainer is sent to consumers.
+            It can be the data that was set at the time event was generated and enqueued into the persistent provider or any other data.
+            </summary>
+            <returns>True if the RequestContext was indeed modified, false otherwise.</returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubBatchContainer.ShouldDeliver(Orleans.Streams.IStreamIdentity,System.Object,Orleans.Streams.StreamFilterPredicate)">
+            <summary>
+            Decide whether this batch should be sent to the specified target.
+            </summary>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.CachedEventHubMessage">
+            <summary>
+            This is a tightly packed cached structure containing an event hub message.  
+            It should only contain value types.
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.CachedEventHubMessage.StreamGuid">
+            <summary>
+            Guid of streamId this event is part of
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.CachedEventHubMessage.SequenceNumber">
+            <summary>
+            EventHub sequence number.  Position of event in partition
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.CachedEventHubMessage.EnqueueTimeUtc">
+            <summary>
+            Time event was writen to EventHub
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.CachedEventHubMessage.DequeueTimeUtc">
+            <summary>
+            Time event was read from EventHub into this cache
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.CachedEventHubMessage.Segment">
+            <summary>
+            Segment containing the serialized event data
+            </summary>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubMessage">
+            <summary>
+            Replication of EventHub EventData class, reconstructed from cached data CachedEventHubMessage
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubMessage.#ctor(Orleans.Streams.IStreamIdentity,System.String,System.String,System.Int64,System.DateTime,System.DateTime,System.Collections.Generic.IDictionary{System.String,System.Object},System.Byte[])">
+            <summary>
+            Contructor
+            </summary>
+            <param name="streamIdentity">Stream Identity</param>
+            <param name="partitionKey">EventHub partition key for message</param>
+            <param name="offset">Offset into the EventHub parition where this message was from</param>
+            <param name="sequenceNumber">Offset into the EventHub parition where this message was from</param>
+            <param name="enqueueTimeUtc">Time in UTC when this message was injected by EventHub</param>
+            <param name="dequeueTimeUtc">Time in UTC when this message was read from EventHub into the current service</param>
+            <param name="properties">User properties from EventData object</param>
+            <param name="payload">Binary data from EventData objbect</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubMessage.#ctor(Orleans.ServiceBus.Providers.CachedEventHubMessage)">
+            <summary>
+            Duplicate of EventHub's EventData class.
+            </summary>
+            <param name="cachedMessage"></param>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubMessage.StreamIdentity">
+            <summary>
+            Stream identifer
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubMessage.PartitionKey">
+            <summary>
+            EventHub partition key
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubMessage.Offset">
+            <summary>
+            Offset into EventHub partition
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubMessage.SequenceNumber">
+            <summary>
+            Sequence number in EventHub partition
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubMessage.EnqueueTimeUtc">
+            <summary>
+            Time event was written to EventHub
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubMessage.DequeueTimeUtc">
+            <summary>
+            Time event was read from EventHub and added to cache
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubMessage.Properties">
+            <summary>
+            User EventData properties
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubMessage.Payload">
+            <summary>
+            Binary event data
+            </summary>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubDataComparer">
+            <summary>
+            Default eventhub data comparer.  Implements comparisions against CachedEventHubMessage
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubDataComparer.Instance">
+            <summary>
+            Singleton instance, since type is stateless using this will reduce allocations.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubDataComparer.Compare(Orleans.ServiceBus.Providers.CachedEventHubMessage,Orleans.Streams.StreamSequenceToken)">
+            <summary>
+            Compare a cached message with a sequence token to determine if it message is before or after the token
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubDataComparer.Equals(Orleans.ServiceBus.Providers.CachedEventHubMessage,Orleans.Streams.IStreamIdentity)">
+            <summary>
+            Checks to see if the cached message is part of the provided stream
+            </summary>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubDataAdapter">
+            <summary>
+            Default event hub data adapter.  Users may subclass to override event data to stream mapping.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubDataAdapter.PurgeAction">
+            <summary>
+            Assignable purge action.  This is called when a purge request is triggered.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubDataAdapter.#ctor(Orleans.Providers.Streams.Common.IObjectPool{Orleans.Providers.Streams.Common.FixedSizeBuffer},Orleans.ServiceBus.Providers.TimePurgePredicate)">
+            <summary>
+            Cache data adapter that adapts EventHub's EventData to CachedEventHubMessage used in cache
+            </summary>
+            <param name="bufferPool"></param>
+            <param name="timePurage"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubDataAdapter.QueueMessageToCachedMessage(Orleans.ServiceBus.Providers.CachedEventHubMessage@,Microsoft.ServiceBus.Messaging.EventData,System.DateTime)">
+            <summary>
+            Converts a TQueueMessage message from the queue to a TCachedMessage cachable structures.
+            </summary>
+            <param name="cachedMessage"></param>
+            <param name="queueMessage"></param>
+            <param name="dequeueTimeUtc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubDataAdapter.GetBatchContainer(Orleans.ServiceBus.Providers.CachedEventHubMessage@)">
+            <summary>
+            Converts a cached message to a batch container for delivery
+            </summary>
+            <param name="cachedMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubDataAdapter.GetBatchContainer(Orleans.ServiceBus.Providers.EventHubMessage)">
+            <summary>
+            Convert an EventHubMessage to a batch container
+            </summary>
+            <param name="eventHubMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubDataAdapter.GetSequenceToken(Orleans.ServiceBus.Providers.CachedEventHubMessage@)">
+            <summary>
+            Gets the stream sequence token from a cached message.
+            </summary>
+            <param name="cachedMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubDataAdapter.GetStreamPosition(Microsoft.ServiceBus.Messaging.EventData)">
+            <summary>
+            Gets the stream position from a queue message
+            </summary>
+            <param name="queueMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubDataAdapter.ShouldPurge(Orleans.ServiceBus.Providers.CachedEventHubMessage@,Orleans.ServiceBus.Providers.CachedEventHubMessage@,System.IDisposable,System.DateTime)">
+            <summary>
+            Given a purge request, indicates if a cached message should be purged from the cache
+            </summary>
+            <param name="cachedMessage"></param>
+            <param name="newestCachedMessage"></param>
+            <param name="purgeRequest"></param>
+            <param name="nowUtc"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubCheckpointer">
+            <summary>
+            This class stores EventHub partition checkpointer information (a partition offset) in azure table storage.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubCheckpointer.CheckpointExists">
+            <summary>
+            Indicates if a checkpoint exists
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubCheckpointer.Create(Orleans.ServiceBus.Providers.ICheckpointerSettings,System.String,System.String)">
+            <summary>
+            Factory function that creates and initializes the checkpointer
+            </summary>
+            <param name="settings"></param>
+            <param name="streamProviderName"></param>
+            <param name="partition"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubCheckpointer.Load">
+            <summary>
+            Loads a checkpoint
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubCheckpointer.Update(System.String,System.DateTime)">
+            <summary>
+            Updates the checkpoint.  This is a best effort.  It does not always update the checkpoint.
+            </summary>
+            <param name="offset"></param>
+            <param name="utcNow"></param>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubQueueCache`1">
+            <summary>
+            EventHub queue cache that allows developers to provide their own cached data structure.
+            </summary>
+            <typeparam name="TCachedMessage"></typeparam>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubQueueCache`1.defaultMaxAddCount">
+            <summary>
+            Default max number of items that can be added to the cache between purge calls
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubQueueCache`1.cache">
+            <summary>
+            Underlying message cache implementation
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubQueueCache`1.Checkpointer">
+            <summary>
+            Logic used to store queue position
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache`1.#ctor(System.Int32,System.Double,Orleans.Streams.IStreamQueueCheckpointer{System.String},Orleans.Providers.Streams.Common.ICacheDataAdapter{Microsoft.ServiceBus.Messaging.EventData,`0},Orleans.Providers.Streams.Common.ICacheDataComparer{`0},Orleans.Runtime.Logger)">
+            <summary>
+            Construct EventHub queue cache.
+            </summary>
+            <param name="defaultMaxAddCount">Default max number of items that can be added to the cache between purge calls.</param>
+            <param name="flowControlThreshold">percentage of unprocesses cache that triggers flow control</param>
+            <param name="checkpointer">Logic used to store queue position.</param>
+            <param name="cacheDataAdapter">Performs data transforms appropriate for the various types of queue data.</param>
+            <param name="comparer">Compares cached data</param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache`1.GetOffset(`0)">
+            <summary>
+            Get offset from cached message.  Left to derived class, as only it knows how to get this from the cached message.
+            </summary>
+            <param name="lastItemPurged"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache`1.TryCalculateCachePressureContribution(Orleans.Streams.StreamSequenceToken,System.Double@)">
+            <summary>
+            cachePressureContribution should be a double between 0-1, indicating how much danger the item is of being removed from the cache.
+              0 indicating  no danger,
+              1 indicating removal is imminent.
+            </summary>
+            <param name="token"></param>
+            <param name="cachePressureContribution"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache`1.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache`1.OnPurge(System.Nullable{`0},System.Nullable{`0})">
+            <summary>
+            Handles cache purge signals
+            </summary>
+            <param name="lastItemPurged"></param>
+            <param name="newestItem"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache`1.GetMaxAddCount">
+            <summary>
+            The limit of the maximum number of items that can be added
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache`1.Add(Microsoft.ServiceBus.Messaging.EventData,System.DateTime)">
+            <summary>
+            Add an EventHub EventData to the cache.
+            </summary>
+            <param name="message"></param>
+            <param name="dequeueTimeUtc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache`1.GetCursor(Orleans.Streams.IStreamIdentity,Orleans.Streams.StreamSequenceToken)">
+            <summary>
+            Get a cursor into the cache to read events from a stream.
+            </summary>
+            <param name="streamIdentity"></param>
+            <param name="sequenceToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache`1.TryGetNextMessage(System.Object,Orleans.Streams.IBatchContainer@)">
+            <summary>
+            Try to get the next message in the cache for the provided cursor.
+            </summary>
+            <param name="cursorObj"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubQueueCache">
+            <summary>
+            Message cache that stores EventData as a CachedEventHubMessage in a pooled message cache
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache.#ctor(Orleans.Streams.IStreamQueueCheckpointer{System.String},Orleans.Providers.Streams.Common.IObjectPool{Orleans.Providers.Streams.Common.FixedSizeBuffer},Orleans.ServiceBus.Providers.TimePurgePredicate,Orleans.Runtime.Logger)">
+            <summary>
+            Construct cache given a buffer pool.  Will use default data adapter
+            </summary>
+            <param name="checkpointer">queue checkpoint writer</param>
+            <param name="bufferPool">buffer pool cache should use for raw buffers</param>
+            <param name="timePurge">predicate used to trigger time based purges</param>
+            <param name="logger">cache logger</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache.#ctor(Orleans.Streams.IStreamQueueCheckpointer{System.String},Orleans.Providers.Streams.Common.ICacheDataAdapter{Microsoft.ServiceBus.Messaging.EventData,Orleans.ServiceBus.Providers.CachedEventHubMessage},Orleans.Providers.Streams.Common.ICacheDataComparer{Orleans.ServiceBus.Providers.CachedEventHubMessage},Orleans.Runtime.Logger)">
+            <summary>
+            Construct cache given a custom data adapter.
+            </summary>
+            <param name="checkpointer">queue checkpoint writer</param>
+            <param name="cacheDataAdapter">adapts queue data to cache</param>
+            <param name="comparer">compares stream information to cached data</param>
+            <param name="logger">cache logger</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache.#ctor(System.Int32,System.Double,Orleans.Streams.IStreamQueueCheckpointer{System.String},Orleans.Providers.Streams.Common.ICacheDataAdapter{Microsoft.ServiceBus.Messaging.EventData,Orleans.ServiceBus.Providers.CachedEventHubMessage},Orleans.Providers.Streams.Common.ICacheDataComparer{Orleans.ServiceBus.Providers.CachedEventHubMessage},Orleans.Runtime.Logger)">
+            <summary>
+            Construct cache given a custom data adapter.
+            </summary>
+            <param name="defaultMaxAddCount">Max number of message that can be added to cache from single read</param>
+            <param name="flowControlThreshold">percentage of unprocesses cache that triggers flow control</param>
+            <param name="checkpointer">queue checkpoint writer</param>
+            <param name="cacheDataAdapter">adapts queue data to cache</param>
+            <param name="comparer">compares stream information to cached data</param>
+            <param name="logger">cache logger</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache.OnPurge(System.Nullable{Orleans.ServiceBus.Providers.CachedEventHubMessage},System.Nullable{Orleans.ServiceBus.Providers.CachedEventHubMessage})">
+            <summary>
+            Handles cache purge signals
+            </summary>
+            <param name="lastItemPurged"></param>
+            <param name="newestItem"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache.GetOffset(Orleans.ServiceBus.Providers.CachedEventHubMessage)">
+            <summary>
+            Get offset from cached message.  Left to derived class, as only it knows how to get this from the cached message.
+            </summary>
+            <param name="lastItemPurged"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueCache.TryCalculateCachePressureContribution(Orleans.Streams.StreamSequenceToken,System.Double@)">
+            <summary>
+            cachePressureContribution should be a double between 0-1, indicating how much danger the item is of being removed from the cache.
+              0 indicating  no danger,
+              1 indicating removal is imminent.
+            </summary>
+            <param name="token"></param>
+            <param name="cachePressureContribution"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubQueueMapper">
+            <summary>
+            Queue mapper that tracks which EventHub partition was mapped to which queueId
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueMapper.#ctor(System.String[],System.String)">
+            <summary>
+            Queue mapper that tracks which EventHub partition was mapped to which queueId
+            </summary>
+            <param name="partitionIds">List of EventHubPartitions</param>
+            <param name="queueNamePrefix">Prefix for queueIds.  Must be unique per stream provider</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubQueueMapper.QueueToPartition(Orleans.Streams.QueueId)">
+            <summary>
+            Gets the EventHub partition by QueueId
+            </summary>
+            <param name="queue"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.IEventHubPartitionLocation">
+            <summary>
+            Location of a message within an EventHub partition
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.IEventHubPartitionLocation.EventHubOffset">
+            <summary>
+            Offset of the message within an EventHub partition
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.IEventHubPartitionLocation.SequenceNumber">
+            <summary>
+            EventHub sequence id of the message
+            </summary>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubSequenceToken">
+            <summary>
+            Event Hub messages consist of a batch of application layer events, so EventHub tokens contain three pieces of information.
+            EventHubOffset - this is a unique value per partition that is used to start reading from this message in the partition.
+            SequenceNumber - EventHub sequence numbers are unique ordered message IDs for messages within a partition.  
+              The SequenceNumber is required for uniqueness and ordering of EventHub messages within a partition.
+            event Index - Since each EventHub message may contain more than one application layer event, this value
+              indicates which application layer event this token is for, within an EventHub message.  It is required for uniqueness
+              and ordering of aplication layer events within an EventHub message.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubSequenceToken.EventHubOffset">
+            <summary>
+            Offset of the message within an EventHub partition
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSequenceToken.#ctor(System.String,System.Int64,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="eventHubOffset">EventHub offset within the partition from which this message came.</param>
+            <param name="sequenceNumber">EventHub sequenceNumber for this message.</param>
+            <param name="eventIndex">Index into a batch of events, if multiple events were delivered within a single EventHub message.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSequenceToken.ToString">
+            <summary>Returns a string that represents the current object.</summary>
+            <returns>A string that represents the current object.</returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubSequenceTokenV2">
+            <summary>
+            Event Hub messages consist of a batch of application layer events, so EventHub tokens contain three pieces of information.
+            EventHubOffset - this is a unique value per partition that is used to start reading from this message in the partition.
+            SequenceNumber - EventHub sequence numbers are unique ordered message IDs for messages within a partition.  
+              The SequenceNumber is required for uniqueness and ordering of EventHub messages within a partition.
+            event Index - Since each EventHub message may contain more than one application layer event, this value
+              indicates which application layer event this token is for, within an EventHub message.  It is required for uniqueness
+              and ordering of application layer events within an EventHub message.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSequenceTokenV2.#ctor(System.String,System.Int64,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="eventHubOffset">EventHub offset within the partition from which this message came.</param>
+            <param name="sequenceNumber">EventHub sequenceNumber for this message.</param>
+            <param name="eventIndex">Index into a batch of events, if multiple events were delivered within a single EventHub message.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSequenceTokenV2.DeepCopy(System.Object,Orleans.Serialization.ICopyContext)">
+            <summary>
+            Create a deep copy of the token.
+            </summary>
+            <param name="original">The token to copy</param>
+            <param name="context">The serialization context.</param>
+            <returns>A copy</returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSequenceTokenV2.Serialize(System.Object,Orleans.Serialization.ISerializationContext,System.Type)">
+            <summary>
+            Serialize the event sequence token.
+            </summary>
+            <param name="untypedInput">The object to serialize.</param>
+            <param name="context">The serialization context.</param>
+            <param name="expected">The expected type.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSequenceTokenV2.Deserialize(System.Type,Orleans.Serialization.IDeserializationContext)">
+            <summary>
+            Deserializes an event sequence token
+            </summary>
+            <param name="expected">The expected type.</param>
+            <param name="context">The deserialization context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubSettings">
+            <summary>
+            EventHub settings for a specific hub
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSettings.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSettings.#ctor(System.String,System.String,System.String,System.Boolean,System.Nullable{System.Int32})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="connectionString">EventHub connection string.</param>
+            <param name="consumerGroup">EventHub consumer group.</param>
+            <param name="path">Hub path.</param>
+            <param name="startFromNow">In cases where no checkpoint is found, this indicates if service should read from the most recent data, or from the begining of a partition.</param>
+            <param name="prefetchCount">optional parameter that configures the receiver prefetch count.</param>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubSettings.ConnectionString">
+            <summary>
+            EventHub connection string.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubSettings.ConsumerGroup">
+            <summary>
+            EventHub consumer group.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubSettings.Path">
+            <summary>
+            Hub path.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubSettings.PrefetchCount">
+            <summary>
+            Optional parameter that configures the receiver prefetch count.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubSettings.StartFromNow">
+            <summary>
+            In cases where no checkpoint is found, this indicates if service should read from the most recent data, or from the begining of a partition.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSettings.WriteProperties(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Utility function to convert config to property bag for use in stream provider configuration
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubSettings.PopulateFromProviderConfig(Orleans.Providers.IProviderConfiguration)">
+            <summary>
+            Utility function to populate config from provider config
+            </summary>
+            <param name="providerConfiguration"></param>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubStreamProvider">
+            <summary>
+            Persistent stream provider that uses EventHub for persistence
+             </summary>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings">
+            <summary>
+            Settings class for EventHubStreamProvider.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.StreamProviderName">
+            <summary>
+            Stream provider name.  This setting is required.
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.EventHubConfigTypeName">
+            <summary>
+            EventHubSettingsType setting name.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.EventHubSettingsType">
+            <summary>
+            EventHub configuration type.  Type must conform to IEventHubSettings interface.
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.CheckpointerSettingsTypeName">
+            <summary>
+            CheckpointerSettingsType setting name.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.CheckpointerSettingsType">
+            <summary>
+            Checkpoint settings type.  Type must conform to ICheckpointerSettings interface.
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.CacheSizeMbName">
+            <summary>
+            CacheSizeMb setting name.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.CacheSizeMb">
+            <summary>
+            Cache size in megabytes.
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.DataMinTimeInCacheName">
+            <summary>
+            DataMinTimeInCache setting name.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.DataMinTimeInCache">
+            <summary>
+            Minimum time message will stay in cache before it is available for time based purge.
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.DataMaxAgeInCacheName">
+            <summary>
+            DataMaxAgeInCache setting name.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.DataMaxAgeInCache">
+            <summary>
+            Difference in time between the newest and oldest messages in the cache.  Any messages older than this will be purged from the cache.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.#ctor(System.String)">
+            <summary>
+            Constructor.  Requires provider name.
+            </summary>
+            <param name="streamProviderName"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.WriteProperties(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Writes settings into a property bag.
+            </summary>
+            <param name="properties"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.PopulateFromProviderConfig(Orleans.Providers.IProviderConfiguration)">
+            <summary>
+            Read settings from provider configuration.
+            </summary>
+            <param name="providerConfiguration"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.GetEventHubSettings(Orleans.Providers.IProviderConfiguration,System.IServiceProvider)">
+            <summary>
+            Aquire configured IEventHubSettings class
+            </summary>
+            <param name="providerConfig"></param>
+            <param name="serviceProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubStreamProviderSettings.GetCheckpointerSettings(Orleans.Providers.IProviderConfiguration,System.IServiceProvider)">
+            <summary>
+            Aquire configured ICheckpointerSettings class
+            </summary>
+            <param name="providerConfig"></param>
+            <param name="serviceProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.ICheckpointerSettings">
+            <summary>
+            Setting interface for checkpointer
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.ICheckpointerSettings.DataConnectionString">
+            <summary>
+            Azure table storage data connections string
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.ICheckpointerSettings.TableName">
+            <summary>
+            Azure storage table name where the checkpoints will be stored
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.ICheckpointerSettings.PersistInterval">
+            <summary>
+            How often to persist the checkpoints, if they've changed.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.ICheckpointerSettings.CheckpointNamespace">
+            <summary>
+            This name partitions a service's checkpoint information from other services.
+            </summary>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.EventHubCheckpointerSettings">
+            <summary>
+            EventHub checkpointer.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubCheckpointerSettings.#ctor">
+            <summary>
+            Default constructor/
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubCheckpointerSettings.#ctor(System.String,System.String,System.String,System.Nullable{System.TimeSpan})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="dataConnectionString">Azure table storage connections string.</param>
+            <param name="table">table name.</param>
+            <param name="checkpointNamespace">checkpointer namespace.</param>
+            <param name="persistInterval">checkpoint interval.</param>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubCheckpointerSettings.DataConnectionString">
+            <summary>
+            Azure table storage connections string.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubCheckpointerSettings.TableName">
+            <summary>
+            Azure table name.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubCheckpointerSettings.PersistInterval">
+            <summary>
+            Intervale to write checkpoints.  Prevents spamming storage.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.EventHubCheckpointerSettings.CheckpointNamespace">
+            <summary>
+            Unique namespace for checkpoint data.  Is similar to consumer group.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubCheckpointerSettings.WriteProperties(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Utility function to convert config to property bag for use in stream provider configuration
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.EventHubCheckpointerSettings.PopulateFromProviderConfig(Orleans.Providers.IProviderConfiguration)">
+            <summary>
+            Utility function to populate config from provider config
+            </summary>
+            <param name="providerConfiguration"></param>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.IEventHubQueueMapper">
+            <summary>
+            Stream queue mapper that maps Event Hub partitions to <see cref="T:Orleans.Streams.QueueId"/>s
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.IEventHubQueueMapper.QueueToPartition(Orleans.Streams.QueueId)">
+            <summary>
+            Gets the EventHub partition by QueueId
+            </summary>
+            <param name="queue"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.IEventHubReceiverMonitor">
+            <summary>
+            Responsible for monitoring receiver performance metrics.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.IEventHubReceiverMonitor.TrackInitialization(System.Boolean)">
+            <summary>
+            Track attempts to initialize the receiver.
+            </summary>
+            <param name="success">True if read succeeded, false if read failed.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.IEventHubReceiverMonitor.TrackRead(System.Boolean)">
+            <summary>
+            Track attempts to read from the partition.    Tracked per partition read operation.
+            </summary>
+            <param name="success">True if read succeeded, false if read failed.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.IEventHubReceiverMonitor.TrackMessagesRecieved(System.Int64,System.TimeSpan)">
+            <summary>
+            Tracks messages read and time taken per successful read.  Tracked per successful partition read operation.
+            </summary>
+            <param name="count">Messages read.</param>
+            <param name="callTime">Time spent in read operation.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.IEventHubReceiverMonitor.TrackAgeOfMessagesRead(System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Tracks the age of messages as they are read.  Tracked per successful partition read operation.
+            NOTE: These metrics do not account for clock skew between host and EventHub ingestion service.
+            </summary>
+            <param name="oldest">The difference between now utc on host and the eventhub enqueue time of the oldest message in a set of messages read.</param>
+            <param name="newest">The difference between now utc on host and the eventhub enqueue time of the newest message in a set of messages read.</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.IEventHubReceiverMonitor.TrackShutdown(System.Boolean)">
+            <summary>
+            Track attempts to shutdown the receiver.
+            </summary>
+            <param name="success">True if read succeeded, false if read failed.</param>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.IEventHubSettings">
+            <summary>
+            EventHub settings inteface for a specific hub.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.IEventHubSettings.ConnectionString">
+            <summary>
+            EventHub connection string.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.IEventHubSettings.ConsumerGroup">
+            <summary>
+            EventHub consumer group.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.IEventHubSettings.Path">
+            <summary>
+            Hub Path.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.IEventHubSettings.PrefetchCount">
+            <summary>
+            Optional parameter which configures the EventHub reciever's prefetch count.
+            </summary>
+        </member>
+        <member name="P:Orleans.ServiceBus.Providers.IEventHubSettings.StartFromNow">
+            <summary>
+            Indicates if stream provider should read all new data in partition, or from start of partition.
+            True - read all new data added to partition.
+            False - start reading from beginning of partition.
+            Note: If checkpoints are used, stream provider will always begin reading from most recent checkpoint.
+            </summary>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.IEventHubQueueCache">
+            <summary>
+            Interface for a stream message cache that stores EventHub EventData
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.IEventHubQueueCache.Add(Microsoft.ServiceBus.Messaging.EventData,System.DateTime)">
+            <summary>
+            Add an EventHub EventData to the cache.
+            </summary>
+            <param name="message"></param>
+            <param name="dequeueTimeUtc"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.IEventHubQueueCache.GetCursor(Orleans.Streams.IStreamIdentity,Orleans.Streams.StreamSequenceToken)">
+            <summary>
+            Get a cursor into the cache to read events from a stream.
+            </summary>
+            <param name="streamIdentity"></param>
+            <param name="sequenceToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.IEventHubQueueCache.TryGetNextMessage(System.Object,Orleans.Streams.IBatchContainer@)">
+            <summary>
+            Try to get the next message in the cache for the provided cursor.
+            </summary>
+            <param name="cursorObj"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.SegmentBuilder">
+            <summary>
+            Utility class for encoding data into an ArraySegment.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.SegmentBuilder.CalculateAppendSize(System.Byte[])">
+            <summary>
+            Calculates how much space will be needed to append the provided bytes into the segment.
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.SegmentBuilder.CalculateAppendSize(System.String)">
+            <summary>
+            Calculates how much space will be needed to append the provided string into the segment.
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.SegmentBuilder.Append(System.ArraySegment{System.Byte},System.Int32@,System.Byte[])">
+            <summary>
+            Appends an array of bytes to the end of the segment
+            </summary>
+            <param name="writerOffset"></param>
+            <param name="bytes"></param>
+            <param name="segment"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.SegmentBuilder.Append(System.ArraySegment{System.Byte},System.Int32@,System.String)">
+            <summary>
+            Appends a string to the end of the segment
+            </summary>
+            <param name="writerOffset"></param>
+            <param name="str"></param>
+            <param name="segment"></param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.SegmentBuilder.ReadNextBytes(System.ArraySegment{System.Byte},System.Int32@)">
+            <summary>
+            Reads the next item in the segment as a byte array.  For performance, this is returned as a sub-segment of the original segment.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.SegmentBuilder.ReadNextString(System.ArraySegment{System.Byte},System.Int32@)">
+            <summary>
+            Reads the next item in the segment as a string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Orleans.ServiceBus.Providers.TimePurgePredicate">
+            <summary>
+            Determines if data should be purged based off time.
+            </summary>
+        </member>
+        <member name="F:Orleans.ServiceBus.Providers.TimePurgePredicate.Default">
+            <summary>
+            Default time purge predicate never purges by time.
+            </summary>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.TimePurgePredicate.#ctor(System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Contructor
+            </summary>
+            <param name="minTimeInCache">minimum time data should be keept in cache, unless purged due to data size.</param>
+            <param name="maxRelativeMessageAge">maximum age of data to keep in the cache</param>
+        </member>
+        <member name="M:Orleans.ServiceBus.Providers.TimePurgePredicate.ShouldPurgFromTime(System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Checks to see if the message should be purged.
+            Message should be purged if its relative age is greater than maxRelativeMessageAge and has been in the cache longer than the minTimeInCache.
+            </summary>
+            <param name="timeInCache">amount of time message has been in this cache</param>
+            <param name="relativeAge">Age of message relative to the most recent events read</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,8 @@
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Intermediate\OrleansCodeGenerator.csprojResolveAssemblyReference.cache
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Orleans.SDK.targets
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Configuration\OrleansConfiguration.xsd
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Intermediate\OrleansCodeGenerator.dll
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Intermediate\OrleansCodeGenerator.pdb
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\OrleansCodeGenerator.dll
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\OrleansCodeGenerator.pdb
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\OrleansCodeGenerator.XML

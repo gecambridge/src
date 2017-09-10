@@ -1,0 +1,12 @@
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Orleans.SDK.targets
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Configuration\OrleansConfiguration.xsd
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Orleans.dll
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Intermediate\Orleans.dll
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Intermediate\Orleans.pdb
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Orleans.pdb
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Orleans.XML
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Orleans.dll.CodeAnalysisLog.xml
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Orleans.dll.lastcodeanalysissucceeded
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Newtonsoft.Json.dll
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\System.Collections.Immutable.dll
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\System.Reflection.Metadata.dll

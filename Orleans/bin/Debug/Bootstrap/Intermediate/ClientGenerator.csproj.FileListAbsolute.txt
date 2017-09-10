@@ -1,0 +1,10 @@
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Intermediate\ClientGenerator.csprojResolveAssemblyReference.cache
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Orleans.SDK.targets
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Configuration\OrleansConfiguration.xsd
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\ClientGenerator.exe.config
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Intermediate\ClientGenerator.exe
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\Intermediate\ClientGenerator.pdb
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\ClientGenerator.exe
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\ClientGenerator.pdb
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\ClientGenerator.exe.CodeAnalysisLog.xml
+C:\Users\GE\Desktop\Deposity\Orleans\orleans-1.4.2\src\Orleans\bin\Debug\Bootstrap\ClientGenerator.exe.lastcodeanalysissucceeded
